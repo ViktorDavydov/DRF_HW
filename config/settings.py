@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'lms',
-    'users'
+    'users',
+    'django_filters'
 
 ]
 
