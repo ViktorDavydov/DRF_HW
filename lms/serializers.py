@@ -27,6 +27,8 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class PaymentSerializer(serializers.ModelSerializer):
     # user = SlugRelatedField(slug_field="email", queryset=User.objects.all())
     # paid_course = SlugRelatedField(slug_field="title", queryset=Course.objects.all())

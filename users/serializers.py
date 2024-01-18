@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class UserCreateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('email', 'password')
+class UserOwnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "email", )
