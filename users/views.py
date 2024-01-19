@@ -30,9 +30,8 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = UserOwnerSerializer(user)
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
-        queryset = User.objects.all()
-        if not self.request.user.email == self.get_object(queryset, email=self.request.user.email):
+    def update(self, request, pk=None, *args, **kwargs):
+        if User.objects.get(pk=self.request.user.pk) != self.get_object():
             raise PermissionDenied
-        return super().partial_update(request, *args, **kwargs)
+        return super().update(request, *args, **kwargs)
 
