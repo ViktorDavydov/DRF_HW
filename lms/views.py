@@ -37,13 +37,6 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     own_subscriptions = CourseSubscription.objects.filter(user=self.request.user)
-    #     # user = get_object_or_404(queryset, pk=self.request.user.id)
-    #     instance = self.get_object()
-    #     serializer = CourseDetailViewSerializer(instance)
-    #     return Response(serializer.data)
-
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
