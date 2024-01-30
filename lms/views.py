@@ -108,7 +108,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
             raise serializers.ValidationError('Не указан курс.')
         payment = serializer.save()
         payment.user = self.request.user
-        if payment.payment_type == 'перевод':
+        if payment.payment_type == 'card':
             payment.session = get_session(payment).id
         payment.save()
 
