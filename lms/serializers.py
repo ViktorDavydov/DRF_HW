@@ -26,7 +26,8 @@ class CourseSerializer(serializers.ModelSerializer):
         return 0
 
     def get_subscription(self, instance):
-        return CourseSubscription.objects.filter(course=instance, user=self.context['request'].user).exists()
+        return CourseSubscription.objects.filter(course=instance,
+                                                 user=self.context['request'].user).exists()
 
     class Meta:
         model = Course
@@ -43,10 +44,17 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PaymentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ('paid_course', 'payment_type')
+
+
 class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseSubscription
         fields = '__all__'
         validators = [
-            serializers.UniqueTogetherValidator(fields=['course'], queryset=CourseSubscription.objects.all())
+            serializers.UniqueTogetherValidator(fields=['course'],
+                                                queryset=CourseSubscription.objects.all())
         ]

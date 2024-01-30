@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'lms',
     'users',
-    'django_filters'
+    'django_filters',
+    'drf_yasg',
 
 ]
 
@@ -147,3 +148,15 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+    },
+}
+
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
