@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
@@ -17,7 +19,6 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     lessons_count = serializers.SerializerMethodField()
     lesson = LessonSerializer(many=True, read_only=True)
-
     subscription = serializers.SerializerMethodField()
 
     def get_lessons_count(self, instance):
@@ -32,6 +33,10 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        validators = [
+            serializers.UniqueTogetherValidator(fields=['title'],
+                                                queryset=Course.objects.all())
+        ]
 
 
 class PaymentSerializer(serializers.ModelSerializer):

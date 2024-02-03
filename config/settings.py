@@ -163,16 +163,37 @@ SWAGGER_SETTINGS = {
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 # Часовой пояс для работы Celery
-CELERY_TIMEZONE = "Europe/Russia"
+CELERY_TIMEZONE = "Europe/Moscow"
 
 # Флаг отслеживания выполнения задач
 CELERY_TASK_TRACK_STARTED = True
 
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = os.getenv('CW_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('CW_EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'lms.tasks.check_last_login',
+        'schedule': timedelta(days=1),
+    },
+}
