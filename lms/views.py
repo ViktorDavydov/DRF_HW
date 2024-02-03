@@ -11,6 +11,7 @@ from lms.permissions import IsModerator, IsOwnerOrStaffUser
 from lms.serializers import CourseSerializer, LessonSerializer, PaymentSerializer, \
     SubscribeSerializer, PaymentCreateSerializer
 from lms.services import get_session, retrieve_session
+from lms.tasks import send_course_update, send_lesson_adding
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -40,13 +41,19 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    def perform_update(self, serializer):
+        course_id = serializer.save(owner=self.request.user).id
+        send_course_update.delay(course_id)
+
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, IsModerator]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        course_id = serializer.save(owner=self.request.user).course.id
+        lesson_id = serializer.save().id
+        send_lesson_adding.delay(lesson_id, course_id)
 
 
 class LessonListAPIView(generics.ListAPIView):
