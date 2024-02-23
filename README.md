@@ -2,8 +2,8 @@
 
 ### Docker
 
-- Собрать командой ```docker compose build``` 
-- Запустить командой ```docker compose up```
+- Собрать командой ```docker-compose build``` 
+- Запустить командой ```docker-compose up```
 
 ### Установка:
 - Убедитесь, что у вас установлен python 3.11 или более новая версия<br>
